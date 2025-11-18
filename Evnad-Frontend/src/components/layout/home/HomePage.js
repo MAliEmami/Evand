@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid"; 
-import Organizer from "../../blog/Organizer";
-import Evand from "../../blog/Evand";
+import Authors from "../../blog/Authors";
+import Blogs from "../../blog/Blogs";
 
 function HomePage() {
   return (
@@ -17,7 +17,7 @@ function HomePage() {
           <Typography component="h3" variant="h5" mb={3} fontWeight={700}>
             برگزارکنندگان
           </Typography>
-          <Organizer />
+          <Authors />
         </Grid>
 
         
@@ -25,7 +25,7 @@ function HomePage() {
           <Typography component="h3" variant="h5" mb={3} fontWeight={700}>
             رویداد ها
           </Typography>
-          <Evand />
+          <Blogs />
         </Grid>
       </Grid>
     </Container>
