@@ -1,73 +1,114 @@
-# Welcome to your Lovable project
+````md
+# Project Overview
 
-## Project info
+## Project Info
+URL: https://your-project-url.com
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
 ## How can I edit this code?
 
-There are several ways of editing your application.
+There are several ways to work with and modify this project, depending on your preferred workflow.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Use your preferred IDE (Local Development)
 
-Changes made via Lovable will be committed automatically to this repo.
+You can work locally using your own IDE (VS Code, WebStorm, etc.) and push changes to the repository.
 
-**Use your preferred IDE**
+### Requirements
+- Node.js
+- npm  
+(Recommended: install Node.js using **nvm**)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Steps
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+#### Step 1: Clone the repository
+```bash
 git clone <YOUR_GIT_URL>
+````
 
-# Step 2: Navigate to the project directory.
+#### Step 2: Navigate to the project directory
+
+```bash
 cd <YOUR_PROJECT_NAME>
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+#### Step 3: Install dependencies
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+npm install
+```
+
+#### Step 4: Start the development server
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+This will start the app with hot-reloading and provide a local development preview.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## Edit files directly on GitHub
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+You can also make quick changes directly from GitHub:
 
-## What technologies are used for this project?
+1. Navigate to the file you want to edit.
+2. Click the **Edit (✏️)** button.
+3. Make your changes.
+4. Commit the changes.
+
+---
+
+## Use GitHub Codespaces
+
+If you prefer a cloud-based development environment:
+
+1. Go to the repository main page.
+2. Click the **Code** button.
+3. Open the **Codespaces** tab.
+4. Click **New codespace**.
+5. Edit files directly in the browser.
+6. Commit and push your changes when finished.
+
+---
+
+## Technologies Used
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+* **Vite**
+* **TypeScript**
+* **React**
+* **shadcn/ui**
+* **Tailwind CSS**
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Deployment
 
-## Can I connect a custom domain to my Lovable project?
+The project can be deployed using any platform that supports modern frontend frameworks, such as:
 
-Yes, you can!
+* Vercel
+* Netlify
+* Cloudflare Pages
+* GitHub Pages (with a build workflow)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Build the project using:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```bash
+npm run build
+```
+
+Then deploy the generated output according to your hosting provider’s instructions.
+
+---
+
+## Custom Domain
+
+You can connect a custom domain through your hosting provider’s domain management settings.
+
+Refer to your deployment platform’s documentation for domain configuration details.
+
+```
