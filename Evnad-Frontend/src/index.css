@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url('/fonts/YekanBakh-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url('/fonts/YekanBakh-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@layer base {
+  :root {
+    --background: 30 25% 98%;
+    --foreground: 220 30% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 30% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 30% 15%;
+
+    --primary: 14 70% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 185 60% 25%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 30 15% 92%;
+    --muted-foreground: 220 15% 45%;
+
+    --accent: 38 90% 55%;
+    --accent-foreground: 220 30% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 15% 88%;
+    --input: 30 15% 88%;
+    --ring: 14 70% 55%;
+
+    --radius: 0.75rem;
+
+    /* Custom EventeMan tokens */
+    --coral: 14 70% 55%;
+    --coral-light: 14 70% 65%;
+    --coral-dark: 14 70% 45%;
+    --teal: 185 60% 25%;
+    --teal-light: 185 50% 35%;
+    --amber: 38 90% 55%;
+    --amber-light: 38 90% 65%;
+    --cream: 30 25% 98%;
+    --navy: 220 40% 13%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(14, 70%, 55%) 0%, hsl(38, 90%, 55%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(30, 25%, 98%) 100%);
+    --gradient-teal: linear-gradient(135deg, hsl(185, 60%, 25%) 0%, hsl(185, 50%, 35%) 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px -2px hsl(220 30% 15% / 0.08);
+    --shadow-md: 0 8px 24px -8px hsl(220 30% 15% / 0.12);
+    --shadow-lg: 0 16px 48px -12px hsl(220 30% 15% / 0.16);
+    --shadow-glow: 0 0 40px hsl(14 70% 55% / 0.25);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 14 70% 55%;
+  }
+
+  .dark {
+    --background: 220 40% 8%;
+    --foreground: 30 20% 95%;
+
+    --card: 220 35% 12%;
+    --card-foreground: 30 20% 95%;
+
+    --popover: 220 35% 12%;
+    --popover-foreground: 30 20% 95%;
+
+    --primary: 14 70% 60%;
+    --primary-foreground: 220 40% 8%;
+
+    --secondary: 185 50% 35%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 30% 18%;
+    --muted-foreground: 220 15% 60%;
+
+    --accent: 38 85% 55%;
+    --accent-foreground: 220 40% 8%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 30% 20%;
+    --input: 220 30% 20%;
+    --ring: 14 70% 60%;
+
+    --coral: 14 70% 60%;
+    --coral-light: 14 70% 70%;
+    --coral-dark: 14 70% 50%;
+    --teal: 185 50% 35%;
+    --teal-light: 185 45% 45%;
+    --amber: 38 85% 55%;
+    --amber-light: 38 85% 65%;
+    --cream: 220 40% 8%;
+    --navy: 220 40% 8%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(14, 70%, 50%) 0%, hsl(38, 85%, 50%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(220, 35%, 12%) 0%, hsl(220, 40%, 10%) 100%);
+    --gradient-teal: linear-gradient(135deg, hsl(185, 50%, 30%) 0%, hsl(185, 45%, 40%) 100%);
+
+    --shadow-sm: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
+    --shadow-md: 0 8px 24px -8px hsl(0 0% 0% / 0.4);
+    --shadow-lg: 0 16px 48px -12px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(14 70% 55% / 0.3);
+
+    --sidebar-background: 220 40% 10%;
+    --sidebar-foreground: 30 20% 95%;
+    --sidebar-primary: 14 70% 60%;
+    --sidebar-primary-foreground: 220 40% 8%;
+    --sidebar-accent: 220 30% 15%;
+    --sidebar-accent-foreground: 30 20% 95%;
+    --sidebar-border: 220 30% 18%;
+    --sidebar-ring: 14 70% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'YekanBakh', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-hero);
+  }
+
+  .bg-gradient-hero {
+    background-image: var(--gradient-hero);
+  }
+
+  .bg-gradient-card {
+    background-image: var(--gradient-card);
+  }
+
+  .bg-gradient-teal {
+    background-image: var(--gradient-teal);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-md);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
