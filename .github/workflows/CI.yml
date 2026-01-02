@@ -23,7 +23,6 @@ jobs:
       - run: npm ci
       # - run: npm test --if-present
       - run: npm run build
-      # gg
 
   backend:
     name: Backend CI
