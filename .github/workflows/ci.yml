@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: Evand-Frontend/package-lock.json
+        working-directory: Evand-Frontend
 
     steps:
       - uses: actions/checkout@v4
@@ -20,9 +20,9 @@ jobs:
         with:
           node-version: 20
 
-      - run: cd Evand-Frontend
       - run: npm ci
       - run: npm run build
+
 
   backend:
     name: Backend CI
