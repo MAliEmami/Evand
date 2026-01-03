@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 20
 
-      - cd Evnad-Frontend
+      - run: cd Evnad-Frontend
       - run: npm ci
       - run: npm run build
 
