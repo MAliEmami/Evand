@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Evand.Application\Evand.Application.csproj" />
+    <ProjectReference Include="..\Evand.Persistence\Evand.Persistence.csproj" />
+    <ProjectReference Include="..\Evand.Infrastructure\Evand.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
