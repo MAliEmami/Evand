@@ -7,11 +7,8 @@ using Evand.Domain.Entities.Base;
 
 namespace Evand.Persistence.Interfaces
 {
-    public interface IGenericRepository<TEntity> where TEntity : BaseEntity
+    public interface IGenericQueryRepository<TEntity> where TEntity : BaseEntity
     {
-        Task<TEntity> AddAsync(TEntity entity);
-        TEntity Update(TEntity entity);
-        void Remove(TEntity entity);
         IQueryable<TEntity> GetQueryable();
         Task<IEnumerable<TEntity>> GetAll();
         Task<IEnumerable<TEntity>> GetPagedAsync(int skip, int take);
