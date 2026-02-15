@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Evand.Application\Evand.Application.csproj" />
+    <!-- <ProjectReference Include="..\Evand.Application\Evand.Application.csproj" /> -->
     <ProjectReference Include="..\Evand.Domain\Evand.Domain.csproj" />
   </ItemGroup>
 

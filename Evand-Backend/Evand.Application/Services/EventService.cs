@@ -13,21 +13,20 @@ namespace Evand.Application.Services
     {
         private readonly IGenericQueryRepository<Event> _eventQueryRepository;
         private readonly IGenericCommandRepository<Event> _eventCommandRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EventService(IGenericQueryRepository<Event> eventQueryRepository, IGenericCommandRepository<Event> eventCommandRepository)
+        public EventService(IGenericQueryRepository<Event> eventQueryRepository, IGenericCommandRepository<Event> eventCommandRepository, IUnitOfWork unitOfWork)
         {
             _eventQueryRepository = eventQueryRepository;
             _eventCommandRepository = eventCommandRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Event> AddAsync(EventAddOrUpdateDto dto)
         {
-            var user = await _eventQueryRepository.GetByGuidAsync(dto.Guid)
-                ?? throw new ArgumentNullException("user not found");
+            var output = await _eventCommandRepository.AddAsync(dto.ToEntity());
 
-            var output = await _eventCommandRepository.AddAsync(dto.ToEntity(user.Id));
-
-            //await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return output;
         }

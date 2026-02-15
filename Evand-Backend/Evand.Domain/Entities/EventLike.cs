@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Evand.Domain.Entities.Base;
 
 namespace Evand.Domain.Entities
 {
-    public class EventLike
+    public class EventLike : BaseEntity
     {
         public DateTime LikedAt { get; set; }
 

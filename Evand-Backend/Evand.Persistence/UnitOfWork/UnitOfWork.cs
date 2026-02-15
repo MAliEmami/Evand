@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Evand.Domain.Entities.Base;
 using Evand.Persistence.DbContextes;
+using Evand.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Evand.Persistence.UnitOfWork
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly EvandDbContext _dbContext;
 

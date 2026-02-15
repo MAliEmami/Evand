@@ -3,7 +3,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Evand.Domain\Evand.Domain.csproj" />
     <ProjectReference Include="..\Evand.Persistence\Evand.Persistence.csproj" />
-    <ProjectReference Include="..\Evand.Infrastructure\Evand.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

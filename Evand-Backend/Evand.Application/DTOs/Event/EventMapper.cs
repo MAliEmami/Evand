@@ -26,7 +26,7 @@ namespace Evand.Application.DTOs.Event
             };
         }
 
-        public static Evand.Domain.Entities.Event ToEntity(this EventAddOrUpdateDto dto, int userId)
+        public static Evand.Domain.Entities.Event ToEntity(this EventAddOrUpdateDto dto)
         {
             return new Evand.Domain.Entities.Event
             {

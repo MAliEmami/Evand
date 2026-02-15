@@ -6,6 +6,7 @@ using Evand.Persistence.DbContextes;
 using Evand.Persistence.Interfaces;
 using Evand.Persistence.Repositories.Command;
 using Evand.Persistence.Repositories.Query;
+using Evand.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,8 @@ builder.Services.AddScoped<IGenericCommandRepository<Event>, GenericCommandRepos
 builder.Services.AddScoped<IGenericQueryRepository<Event>, GenericQueryRepository<Event>>();
 
 builder.Services.AddScoped<IService<Event, EventDto, EventAddOrUpdateDto>, EventService>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddDbContext<EvandDbContext>(options =>
 {
