@@ -13,7 +13,6 @@ namespace Evand.Persistence.DbContextes
         // ===== DbSets =====
         public DbSet<User> Users => Set<User>();
         public DbSet<Event> Events => Set<Event>();
-
         public DbSet<EventParticipant> EventParticipants => Set<EventParticipant>();
         public DbSet<EventLike> EventLikes => Set<EventLike>();
         public DbSet<EventComment> EventComments => Set<EventComment>();
