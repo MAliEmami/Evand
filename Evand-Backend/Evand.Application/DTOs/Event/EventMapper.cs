@@ -8,7 +8,7 @@ namespace Evand.Application.DTOs.Event
 {
     public static class EventMapper
     {
-        public static EventDto ToDto(this Evand.Domain.Entities.Event entity, Guid userGuid)
+        public static EventDto ToDto(this Evand.Domain.Entities.Event entity, Guid eventGuid)
         {
             return new EventDto
             {

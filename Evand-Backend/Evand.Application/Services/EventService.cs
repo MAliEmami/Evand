@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Evand.Application.DTOs.Event;
 using Evand.Application.Interfaces;
@@ -31,9 +32,11 @@ namespace Evand.Application.Services
             return output;
         }
 
-        public Task<IEnumerable<EventDto>> ListAsync()
+        public async Task<IEnumerable<EventDto>> ListAsync()
         {
-            throw new NotImplementedException();
+            return await _eventQueryRepository.GetQueryable()
+                .Select(e => e.ToDto(e.Guid))
+                .ToListAsync();
         }
 
         public Task<int> RemoveAsync(Guid guid)
