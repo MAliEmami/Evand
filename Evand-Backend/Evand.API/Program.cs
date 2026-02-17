@@ -28,6 +28,8 @@ builder.Services.AddScoped<IGenericQueryRepository<User>, GenericQueryRepository
 builder.Services.AddScoped<IService<Event, EventDto, EventAddOrUpdateDto>, EventService>();
 builder.Services.AddScoped<IService<User, UserDto, UserAddOrUpdateDto>, UserService>();
 
+builder.Services.AddScoped<IService<Event, EventDto, EventAddOrUpdateDto>, EventService>();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddDbContext<EvandDbContext>(options =>
