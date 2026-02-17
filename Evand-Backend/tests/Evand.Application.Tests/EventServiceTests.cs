@@ -92,8 +92,16 @@ namespace Evand.Application.Tests
             .Setup(r => r.GetAllAsync())
             .ReturnsAsync(events);
 
-            // Act: calling service method
-            var result = await _service.GetAllAsync();
+        // Act: calling service method
+        var result = await _service.GetAllAsync();
+        // Assert:check result
+        result.Should().NotBeNull("service should return a list of events");
+        result.Should().HaveCount(2, "we have set up 2 events in the mock");
+        result.Should().BeEquivalentTo(events, options => options
+        .Excluding(e => e.Id));
+
+        _queryRepoMock.Verify(r => r.GetAllAsync(), Times.Once);
+    }
 
     }
 }
