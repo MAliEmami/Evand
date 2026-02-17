@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Evand.Domain\Evand.Domain.csproj" />
+    <ProjectReference Include="..\Evand.Persistence\Evand.Persistence.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
