@@ -19,8 +19,8 @@ namespace Evand.Domain.Entities
         public DateTime EndDate { get; set; }
         public int Capacity { get; set; }
 
-        public int OrganizerId { get; set; }
-        public User Organizer { get; set; } = null!;
+        public int? OrganizerId { get; set; }
+        public User? Organizer { get; set; } = null!;
 
         public DateTime OrganizedDate { get; set; }
 

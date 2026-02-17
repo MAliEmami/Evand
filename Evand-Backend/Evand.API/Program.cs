@@ -1,4 +1,5 @@
 using Evand.Application.DTOs.Event;
+using Evand.Application.DTOs.User;
 using Evand.Application.Interfaces;
 using Evand.Application.Services;
 using Evand.Domain.Entities;
@@ -14,13 +15,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
+    
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IGenericCommandRepository<Event>, GenericCommandRepository<Event>>();
 builder.Services.AddScoped<IGenericQueryRepository<Event>, GenericQueryRepository<Event>>();
+builder.Services.AddScoped<IGenericCommandRepository<User>, GenericCommandRepository<User>>();
+builder.Services.AddScoped<IGenericQueryRepository<User>, GenericQueryRepository<User>>();
+
+builder.Services.AddScoped<IService<Event, EventDto, EventAddOrUpdateDto>, EventService>();
+builder.Services.AddScoped<IService<User, UserDto, UserAddOrUpdateDto>, UserService>();
 
 builder.Services.AddScoped<IService<Event, EventDto, EventAddOrUpdateDto>, EventService>();
 
