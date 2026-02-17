@@ -77,5 +77,23 @@ namespace Evand.Application.Tests
             _commandRepoMock.Verify(r => r.AddAsync(It.Is<Event>(e => e.Name == dto.Name && e.Guid == dto.Guid)), Times.Once);
             _uowMock.Verify(u => u.SaveChangesAsync(default), Times.Once);
         }
+
+        [Fact]
+        public async Task GetAllAsync_Should_Return_List_Of_Events()
+        {
+            // Arrange: Mocking data
+            var events = new[]
+            {
+            new Event { Guid = Guid.NewGuid(), Name = "Event 1", Category = "Test", Address = "Address 1" },
+            new Event { Guid = Guid.NewGuid(), Name = "Event 2", Category = "Test", Address = "Address 2" }
+            };
+
+        _queryRepoMock
+            .Setup(r => r.GetAllAsync())
+            .ReturnsAsync(events);
+
+            // Act: calling service method
+            var result = await _service.GetAllAsync();
+
     }
 }
