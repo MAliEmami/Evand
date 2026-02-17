@@ -69,7 +69,13 @@ namespace Evand.Application.Tests
             // Act
             var result = await _service.AddAsync(dto);
 
-            // Note: assertions will be added 
+            // Assert
+            result.Should().NotBeNull("service should return created entity");
+            result.Should().BeEquivalentTo(createdEntity, options => options
+                .Excluding(e => e.Id)); 
+
+            _commandRepoMock.Verify(r => r.AddAsync(It.Is<Event>(e => e.Name == dto.Name && e.Guid == dto.Guid)), Times.Once);
+            _uowMock.Verify(u => u.SaveChangesAsync(default), Times.Once);
         }
     }
 }
