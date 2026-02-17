@@ -33,7 +33,43 @@ namespace Evand.Application.Tests
         [Fact]
         public async Task AddAsync_Should_Call_CommandRepo_And_SaveChanges_And_Return_Entity()
         {
-            // TODO: implement test (arrange/act/assert)
+            // Arrange
+            var dto = new EventAddOrUpdateDto
+            {
+                Guid = Guid.NewGuid(),
+                Name = "UnitTest Event",
+                Category = "Test",
+                Address = "Test Address",
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddHours(2),
+                Capacity = 100,
+                Price = 9.99m
+            };
+
+            var createdEntity = new Event
+            {
+                Guid = dto.Guid,
+                Name = dto.Name,
+                Category = dto.Category,
+                Address = dto.Address,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                Capacity = dto.Capacity,
+                Price = dto.Price
+            };
+
+            _commandRepoMock
+                .Setup(r => r.AddAsync(It.IsAny<Event>()))
+                .ReturnsAsync(createdEntity);
+
+            _uowMock
+                .Setup(u => u.SaveChangesAsync(default))
+                .ReturnsAsync(1);
+
+            // Act
+            var result = await _service.AddAsync(dto);
+
+            // Note: assertions will be added 
         }
     }
 }
