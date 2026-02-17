@@ -12,7 +12,7 @@ namespace Evand.API.Controller
 {
     [ApiController]
     [Route("Event")]
-    public class EventApiController(IService<Event, EventDto, EventAddOrUpdateDto> servise)
+    public class EventController(IService<Event, EventDto, EventAddOrUpdateDto> servise)
         : BaseApiController<Event, EventDto, EventAddOrUpdateDto>(servise)
     {
         
