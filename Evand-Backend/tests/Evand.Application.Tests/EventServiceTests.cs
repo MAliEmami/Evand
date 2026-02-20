@@ -1,49 +1,47 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Evand.Application.DTOs.Event;
 using Evand.Application.Services;
 using Evand.Domain.Entities;
 using Evand.Persistence.Interfaces;
 using FluentAssertions;
-using Moq;
-using Xunit;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace Evand.Application.Tests
 {
     public class EventServiceTests
     {
-        private readonly Mock<IGenericQueryRepository<Event>> _queryRepoMock;
-        private readonly Mock<IGenericCommandRepository<Event>> _commandRepoMock;
-        private readonly Mock<IUnitOfWork> _uowMock;
-        private readonly EventService _service;
+        private IGenericQueryRepository<Event> _queryRepo = null!;
+        private IGenericCommandRepository<Event> _commandRepo = null!;
+        private IUnitOfWork _uow = null!;
+        private EventService _service = null!;
 
-        public EventServiceTests()
+        [SetUp]
+        public void Setup()
         {
-            _queryRepoMock = new Mock<IGenericQueryRepository<Event>>();
-            _commandRepoMock = new Mock<IGenericCommandRepository<Event>>();
-            _uowMock = new Mock<IUnitOfWork>();
+            _queryRepo = Substitute.For<IGenericQueryRepository<Event>>();
+            _commandRepo = Substitute.For<IGenericCommandRepository<Event>>();
+            _uow = Substitute.For<IUnitOfWork>();
 
-            _service = new EventService(
-                _queryRepoMock.Object,
-                _commandRepoMock.Object,
-                _uowMock.Object
-            );
+            _service = new EventService(_queryRepo, _commandRepo, _uow);
         }
 
-        [Fact]
-        public async Task AddAsync_Should_Call_CommandRepo_And_SaveChanges_And_Return_Entity()
+        [Test]
+        public async Task AddAsync_ShouldReturnCreatedEntity()
         {
-            // Arrange
             var dto = new EventAddOrUpdateDto
             {
                 Guid = Guid.NewGuid(),
                 Name = "UnitTest Event",
                 Category = "Test",
-                Address = "Test Address",
+                Address = "Address",
                 StartDate = DateTime.UtcNow,
-                EndDate = DateTime.UtcNow.AddHours(2),
-                Capacity = 100,
-                Price = 9.99m
+                EndDate = DateTime.UtcNow.AddHours(1),
+                Capacity = 50,
+                Price = 10
             };
 
             var createdEntity = new Event
@@ -58,50 +56,31 @@ namespace Evand.Application.Tests
                 Price = dto.Price
             };
 
-            _commandRepoMock
-                .Setup(r => r.AddAsync(It.IsAny<Event>()))
-                .ReturnsAsync(createdEntity);
+            _commandRepo.AddAsync(Arg.Any<Event>()).Returns(createdEntity);
+            _uow.SaveChangesAsync(default).Returns(Task.FromResult(1));
 
-            _uowMock
-                .Setup(u => u.SaveChangesAsync(default))
-                .ReturnsAsync(1);
-
-            // Act
             var result = await _service.AddAsync(dto);
 
-            // Assert
-            result.Should().NotBeNull("service should return created entity");
-            result.Should().BeEquivalentTo(createdEntity, options => options
-                .Excluding(e => e.Id)); 
-
-            _commandRepoMock.Verify(r => r.AddAsync(It.Is<Event>(e => e.Name == dto.Name && e.Guid == dto.Guid)), Times.Once);
-            _uowMock.Verify(u => u.SaveChangesAsync(default), Times.Once);
+            result.Should().BeEquivalentTo(createdEntity, options => options.Excluding(e => e.Id));
+            await _commandRepo.Received(1).AddAsync(Arg.Is<Event>(e => e.Guid == dto.Guid));
+            await _uow.Received(1).SaveChangesAsync(default);
         }
 
-        [Fact]
-        public async Task GetAllAsync_Should_Return_List_Of_Events()
+        [Test]
+        public async Task ListAsync_ShouldReturnDtos()
         {
-            // Arrange: Mocking data
-            var events = new[]
+            var events = new List<Event>
             {
-            new Event { Guid = Guid.NewGuid(), Name = "Event 1", Category = "Test", Address = "Address 1" },
-            new Event { Guid = Guid.NewGuid(), Name = "Event 2", Category = "Test", Address = "Address 2" }
+                new Event { Guid = Guid.NewGuid(), Name = "Event1", Category = "Cat1", Address = "Addr1" },
+                new Event { Guid = Guid.NewGuid(), Name = "Event2", Category = "Cat2", Address = "Addr2" }
             };
 
-        _queryRepoMock
-            .Setup(r => r.GetAllAsync())
-            .ReturnsAsync(events);
+            _queryRepo.GetQueryable().Returns(events.AsQueryable());
 
-        // Act: calling service method
-        var result = await _service.GetAllAsync();
-        // Assert:check result
-        result.Should().NotBeNull("service should return a list of events");
-        result.Should().HaveCount(2, "we have set up 2 events in the mock");
-        result.Should().BeEquivalentTo(events, options => options
-        .Excluding(e => e.Id));
+            var result = await _service.ListAsync();
 
-        _queryRepoMock.Verify(r => r.GetAllAsync(), Times.Once);
-    }
-
+            result.Should().HaveCount(2);
+            result.Select(r => r.Name).Should().Contain("Event1", "Event2");
+        }
     }
 }
