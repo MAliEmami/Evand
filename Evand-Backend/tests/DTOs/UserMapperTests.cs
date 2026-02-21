@@ -3,7 +3,6 @@ using Evand.Application.DTOs.User;
 using FluentAssertions;
 using NUnit.Framework;
 
-// alias to avoid name clashes between DTO namespaces and Domain entity names
 using DomainUser = Evand.Domain.Entities.User;
 
 namespace Evand.DTO.Tests
@@ -42,5 +41,32 @@ namespace Evand.DTO.Tests
             dto.Avatar.Should().Be(entity.Avatar);
         }
 
+        [Test]
+        public void ToDto_ShouldPreserveNullables_FromDomainEntity()
+        {
+            // Arrange
+            var entity = new DomainUser
+            {
+                Guid = Guid.NewGuid(),
+                FullName = "Nullable User",
+                Email = "nullable@example.com",
+                HashPassword = "h",
+                PhoneNumber = null,
+                City = null,
+                Province = null,
+                Avatar = null
+            };
 
+            // Act
+            var dto = entity.ToDto(entity.Guid);
+
+            // Assert
+            dto.PhoneNumber.Should().BeNull();
+            dto.City.Should().BeNull();
+            dto.Province.Should().BeNull();
+            dto.Avatar.Should().BeNull();
+        }
+
+
+    }
 }
