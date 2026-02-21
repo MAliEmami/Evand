@@ -30,7 +30,7 @@ const Hero = () => {
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            چه در حال برگزاری کارگاه، کنفرانس یا گردهمایی باشید، ایونته‌من ارتباط با افرادی که علایق مشترک دارند را آسان می‌کند.
+            چه در حال برگزاری کارگاه، کنفرانس یا گردهمایی باشید، Evand ارتباط با افرادی که علایق مشترک دارند را آسان می‌کند.
           </p>
 
           {/* CTA Buttons */}

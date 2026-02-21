@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Calendar, Clock, MapPin, Users, Image, Tag, FileText, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { eventApi } from "@/services/api";
 
 const CreateEvent = () => {
   const navigate = useNavigate();
@@ -22,16 +23,19 @@ const CreateEvent = () => {
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    title: "",
+    name: "",
     description: "",
-    date: "",
-    time: "",
-    location: "",
+    startDate: "",
+    startTime: "",
+    endDate: "",
+    endTime: "",
     address: "",
     category: "",
-    maxAttendees: "",
+    capacity: "",
     price: "",
-    imageUrl: "",
+    photo: "",
+    x: "",
+    y: "",
   });
 
   const categories = [
@@ -55,15 +59,38 @@ const CreateEvent = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const startDateTime = `${formData.startDate}T${formData.startTime || "00:00"}:00`;
+      const endDateTime = `${formData.endDate}T${formData.endTime || "23:59"}:00`;
+
+      await eventApi.addEvent({
+        name: formData.name,
+        category: formData.category,
+        x: formData.x ? parseFloat(formData.x) : null,
+        y: formData.y ? parseFloat(formData.y) : null,
+        price: parseFloat(formData.price) || 0,
+        photo: formData.photo || null,
+        address: formData.address,
+        startDate: startDateTime,
+        endDate: endDateTime,
+        capacity: parseInt(formData.capacity) || 0,
+      });
+
       toast({
         title: "رویداد ایجاد شد!",
         description: "رویداد شما با موفقیت منتشر شد.",
       });
       navigate("/events");
-    }, 1500);
+    } catch (error) {
+      console.error("Error creating event:", error);
+      toast({
+        title: "خطا",
+        description: "مشکلی در ایجاد رویداد پیش آمد. لطفاً دوباره تلاش کنید.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -96,27 +123,14 @@ const CreateEvent = () => {
 
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="title">عنوان رویداد</Label>
+                  <Label htmlFor="name">نام رویداد</Label>
                   <Input
-                    id="title"
-                    name="title"
-                    placeholder="عنوان جذابی برای رویداد خود بنویسید"
-                    value={formData.title}
+                    id="name"
+                    name="name"
+                    placeholder="نام جذابی برای رویداد خود بنویسید"
+                    value={formData.name}
                     onChange={handleChange}
                     className="h-12"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="description">توضیحات</Label>
-                  <Textarea
-                    id="description"
-                    name="description"
-                    placeholder="به مردم بگویید رویداد شما درباره چیست..."
-                    value={formData.description}
-                    onChange={handleChange}
-                    className="min-h-[150px] resize-none"
                     required
                   />
                 </div>
@@ -143,15 +157,15 @@ const CreateEvent = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="maxAttendees">حداکثر شرکت‌کنندگان</Label>
+                    <Label htmlFor="capacity">ظرفیت</Label>
                     <div className="relative">
                       <Users className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                       <Input
-                        id="maxAttendees"
-                        name="maxAttendees"
+                        id="capacity"
+                        name="capacity"
                         type="number"
                         placeholder="مثلاً ۱۰۰"
-                        value={formData.maxAttendees}
+                        value={formData.capacity}
                         onChange={handleChange}
                         className="pr-11 h-12"
                         required
@@ -171,14 +185,14 @@ const CreateEvent = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="date">تاریخ</Label>
+                  <Label htmlFor="startDate">تاریخ شروع</Label>
                   <div className="relative">
                     <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
-                      id="date"
-                      name="date"
+                      id="startDate"
+                      name="startDate"
                       type="date"
-                      value={formData.date}
+                      value={formData.startDate}
                       onChange={handleChange}
                       className="pr-11 h-12"
                       required
@@ -187,14 +201,46 @@ const CreateEvent = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="time">زمان</Label>
+                  <Label htmlFor="startTime">ساعت شروع</Label>
                   <div className="relative">
                     <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
-                      id="time"
-                      name="time"
+                      id="startTime"
+                      name="startTime"
                       type="time"
-                      value={formData.time}
+                      value={formData.startTime}
+                      onChange={handleChange}
+                      className="pr-11 h-12"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="endDate">تاریخ پایان</Label>
+                  <div className="relative">
+                    <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      id="endDate"
+                      name="endDate"
+                      type="date"
+                      value={formData.endDate}
+                      onChange={handleChange}
+                      className="pr-11 h-12"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="endTime">ساعت پایان</Label>
+                  <div className="relative">
+                    <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                    <Input
+                      id="endTime"
+                      name="endTime"
+                      type="time"
+                      value={formData.endTime}
                       onChange={handleChange}
                       className="pr-11 h-12"
                       required
@@ -213,14 +259,14 @@ const CreateEvent = () => {
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="location">نام محل برگزاری</Label>
+                  <Label htmlFor="address">آدرس</Label>
                   <div className="relative">
                     <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
-                      id="location"
-                      name="location"
-                      placeholder="مثلاً مرکز همایش‌ها"
-                      value={formData.location}
+                      id="address"
+                      name="address"
+                      placeholder="آدرس کامل محل برگزاری"
+                      value={formData.address}
                       onChange={handleChange}
                       className="pr-11 h-12"
                       required
@@ -228,17 +274,33 @@ const CreateEvent = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="address">آدرس کامل</Label>
-                  <Input
-                    id="address"
-                    name="address"
-                    placeholder="خیابان، شهر، استان"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className="h-12"
-                    required
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="x">طول جغرافیایی (X)</Label>
+                    <Input
+                      id="x"
+                      name="x"
+                      type="number"
+                      step="any"
+                      placeholder="مثلاً 51.3890"
+                      value={formData.x}
+                      onChange={handleChange}
+                      className="h-12"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="y">عرض جغرافیایی (Y)</Label>
+                    <Input
+                      id="y"
+                      name="y"
+                      type="number"
+                      step="any"
+                      placeholder="مثلاً 35.6892"
+                      value={formData.y}
+                      onChange={handleChange}
+                      className="h-12"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -252,15 +314,15 @@ const CreateEvent = () => {
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="imageUrl">لینک تصویر کاور</Label>
+                  <Label htmlFor="photo">لینک تصویر کاور</Label>
                   <div className="relative">
                     <Image className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
-                      id="imageUrl"
-                      name="imageUrl"
+                      id="photo"
+                      name="photo"
                       type="url"
                       placeholder="https://example.com/image.jpg"
-                      value={formData.imageUrl}
+                      value={formData.photo}
                       onChange={handleChange}
                       className="pr-11 h-12"
                     />
@@ -268,11 +330,12 @@ const CreateEvent = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="price">قیمت بلیط</Label>
+                  <Label htmlFor="price">قیمت (تومان)</Label>
                   <Input
                     id="price"
                     name="price"
-                    placeholder="رایگان یا قیمت وارد کنید (مثلاً ۵۰,۰۰۰ تومان)"
+                    type="number"
+                    placeholder="۰ برای رایگان"
                     value={formData.price}
                     onChange={handleChange}
                     className="h-12"

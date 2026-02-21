@@ -25,7 +25,7 @@ const About = () => {
       <section className="pt-32 pb-16 bg-gradient-to-b from-primary/5 to-background">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            درباره <span className="text-gradient">ایونته‌من</span>
+            درباره <span className="text-gradient">Evand</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             داستان ما، ماموریت ما و چشم‌انداز آینده
@@ -46,7 +46,7 @@ const About = () => {
                   <h2 className="text-2xl font-bold text-foreground">داستان ما</h2>
                 </div>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  ایونته‌من در سال ۱۴۰۲ با هدف ساده‌سازی برگزاری رویدادها در ایران راه‌اندازی شد. ما باور داریم که هر رویداد، فرصتی برای ایجاد ارتباطات معنادار و خاطرات ماندگار است.
+                  Evand در سال ۱۴۰۲ با هدف ساده‌سازی برگزاری رویدادها در ایران راه‌اندازی شد. ما باور داریم که هر رویداد، فرصتی برای ایجاد ارتباطات معنادار و خاطرات ماندگار است.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
                   تیم ما متشکل از افراد خلاق و پرانرژی است که عاشق ایجاد تجربه‌های فوق‌العاده هستند. از روز اول، تمرکز ما بر ارائه ابزارهای ساده و قدرتمند برای برگزارکنندگان رویداد بوده است.
@@ -62,7 +62,7 @@ const About = () => {
                 </p>
                 <h3 className="text-2xl font-bold mb-4">چشم‌انداز</h3>
                 <p className="text-primary-foreground/90 leading-relaxed">
-                  ما می‌خواهیم ایونته‌من به اولین انتخاب برگزارکنندگان رویداد در خاورمیانه تبدیل شود.
+                  ما می‌خواهیم Evand به اولین انتخاب برگزارکنندگان رویداد در خاورمیانه تبدیل شود.
                 </p>
               </div>
             </div>
@@ -127,7 +127,7 @@ const About = () => {
               تیم ما
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              افراد پشت ایونته‌من که هر روز برای بهتر شدن تلاش می‌کنند
+              افراد پشت Evand که هر روز برای بهتر شدن تلاش می‌کنند
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">

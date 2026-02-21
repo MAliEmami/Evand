@@ -320,7 +320,7 @@ const EventDetail = () => {
       try {
         await navigator.share({
           title: title,
-          text: `${title} - ایونته‌من`,
+          text: `${title} - Evand`,
           url: url,
         });
       } catch (error) {
@@ -572,7 +572,7 @@ const EventDetail = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-foreground">
-                        {isSampleEvent ? "ایونته‌من" : (organizer?.full_name || "کاربر ایونته‌من")}
+                        {isSampleEvent ? "Evand" : (organizer?.full_name || "کاربر Evand")}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {organizerEventCount} رویداد برگزار کرده

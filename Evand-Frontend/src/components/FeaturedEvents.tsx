@@ -3,102 +3,92 @@ import { Link } from "react-router-dom";
 import EventCard from "@/components/EventCard";
 import { Button } from "@/components/ui/button";
 import { Loader2, ArrowLeft } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { eventApi, type EventListDto } from "@/services/api";
 
-interface Event {
-  id: string;
-  title: string;
-  description: string | null;
-  date: string;
-  time: string;
-  location: string;
-  category: string;
-  image_url: string | null;
-  max_attendees: number;
-}
-
-const sampleEvents: Event[] = [
+const sampleEvents: EventListDto[] = [
   {
-    id: "sample-1",
-    title: "همایش نوآوران فناوری ۱۴۰۳",
-    description: "همراه با رهبران صنعت و نوآوران برای یک روز بحث‌های فناوری پیشرفته و شبکه‌سازی.",
-    date: "2025-01-07",
-    time: "09:00:00",
-    location: "مرکز همایش‌های تهران",
+    guid: "sample-1",
+    name: "همایش نوآوران فناوری ۱۴۰۳",
     category: "فناوری",
-    image_url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800",
-    max_attendees: 300,
+    x: 35.6892,
+    y: 51.389,
+    price: 0,
+    photo: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800",
+    address: "مرکز همایش‌های تهران",
+    startDate: "2025-01-07T09:00:00",
+    endDate: "2025-01-07T18:00:00",
+    capacity: 300,
   },
   {
-    id: "sample-2",
-    title: "کارگاه طراحی خلاقانه",
-    description: "کارگاه عملی برای کشف جدیدترین روندها و ابزارهای طراحی. مناسب برای مبتدیان و حرفه‌ای‌ها.",
-    date: "2025-01-15",
-    time: "14:00:00",
-    location: "استودیو طراحی اصفهان",
+    guid: "sample-2",
+    name: "کارگاه طراحی خلاقانه",
     category: "کارگاه",
-    image_url: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800",
-    max_attendees: 30,
+    x: 32.6546,
+    y: 51.668,
+    price: 150000,
+    photo: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800",
+    address: "استودیو طراحی اصفهان",
+    startDate: "2025-01-15T14:00:00",
+    endDate: "2025-01-15T18:00:00",
+    capacity: 30,
   },
   {
-    id: "sample-3",
-    title: "شب شبکه‌سازی استارتاپ‌ها",
-    description: "ارتباط با بنیان‌گذاران، سرمایه‌گذاران و علاقه‌مندان استارتاپ در یک شب گفتگوهای معنادار.",
-    date: "2025-01-22",
-    time: "18:00:00",
-    location: "هاب استارتاپ، شیراز",
+    guid: "sample-3",
+    name: "شب شبکه‌سازی استارتاپ‌ها",
     category: "شبکه‌سازی",
-    image_url: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
-    max_attendees: 150,
+    x: 29.5918,
+    y: 52.5836,
+    price: 50000,
+    photo: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
+    address: "هاب استارتاپ، شیراز",
+    startDate: "2025-01-22T18:00:00",
+    endDate: "2025-01-22T22:00:00",
+    capacity: 150,
   },
   {
-    id: "sample-4",
-    title: "اردوگاه سلامت و آرامش",
-    description: "یک آخر هفته تحول‌آفرین متمرکز بر سلامت ذهنی، مدیتیشن و رشد شخصی.",
-    date: "2025-01-30",
-    time: "08:00:00",
-    location: "اقامتگاه کوهستانی تهران",
+    guid: "sample-4",
+    name: "اردوگاه سلامت و آرامش",
     category: "سلامت",
-    image_url: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800",
-    max_attendees: 50,
+    x: 35.6892,
+    y: 51.389,
+    price: 300000,
+    photo: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800",
+    address: "اقامتگاه کوهستانی تهران",
+    startDate: "2025-01-30T08:00:00",
+    endDate: "2025-02-01T16:00:00",
+    capacity: 50,
   },
   {
-    id: "sample-5",
-    title: "فستیوال موسیقی زنده",
-    description: "سه روز اجراهای زنده باورنکردنی از هنرمندان برتر در ژانرهای مختلف.",
-    date: "2025-02-11",
-    time: "12:00:00",
-    location: "پارک ساحلی، کیش",
+    guid: "sample-5",
+    name: "فستیوال موسیقی زنده",
     category: "موسیقی",
-    image_url: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800",
-    max_attendees: 5000,
+    x: 26.5362,
+    y: 53.9801,
+    price: 200000,
+    photo: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800",
+    address: "پارک ساحلی، کیش",
+    startDate: "2025-02-11T12:00:00",
+    endDate: "2025-02-13T23:00:00",
+    capacity: 5000,
   },
   {
-    id: "sample-6",
-    title: "کلاس پخت حرفه‌ای",
-    description: "تکنیک‌های آشپزی حرفه‌ای را از سرآشپزهای برنده جایزه در این کلاس عملی انحصاری بیاموزید.",
-    date: "2025-02-25",
-    time: "11:00:00",
-    location: "آکادمی آشپزی، مشهد",
+    guid: "sample-6",
+    name: "کلاس پخت حرفه‌ای",
     category: "غذا و نوشیدنی",
-    image_url: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800",
-    max_attendees: 20,
+    x: 36.2972,
+    y: 59.6068,
+    price: 120000,
+    photo: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800",
+    address: "آکادمی آشپزی، مشهد",
+    startDate: "2025-02-25T11:00:00",
+    endDate: "2025-02-25T15:00:00",
+    capacity: 20,
   },
 ];
 
-const sampleAttendeeCounts: Record<string, number> = {
-  "sample-1": 245,
-  "sample-2": 28,
-  "sample-3": 89,
-  "sample-4": 42,
-  "sample-5": 4800,
-  "sample-6": 18,
-};
-
 const FeaturedEvents = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<EventListDto[]>([]);
   const [loading, setLoading] = useState(true);
-  const [attendeeCounts, setAttendeeCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
     fetchEvents();
@@ -106,33 +96,15 @@ const FeaturedEvents = () => {
 
   const fetchEvents = async () => {
     try {
-      const { data, error } = await supabase
-        .from("events")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(6);
-
-      if (error) throw error;
-
-      if (!data || data.length === 0) {
+      const data = await eventApi.getEvents();
+      if (data.length === 0) {
         setEvents(sampleEvents);
-        setAttendeeCounts(sampleAttendeeCounts);
       } else {
-        setEvents(data);
-        const counts: Record<string, number> = {};
-        for (const event of data) {
-          const { count } = await supabase
-            .from("event_registrations")
-            .select("*", { count: "exact", head: true })
-            .eq("event_id", event.id);
-          counts[event.id] = count || 0;
-        }
-        setAttendeeCounts(counts);
+        setEvents(data.slice(0, 6));
       }
     } catch (error) {
       console.error("Error fetching events:", error);
       setEvents(sampleEvents);
-      setAttendeeCounts(sampleAttendeeCounts);
     } finally {
       setLoading(false);
     }
@@ -147,12 +119,18 @@ const FeaturedEvents = () => {
     }).format(date);
   };
 
-  const formatTime = (timeString: string) => {
-    const [hours, minutes] = timeString.split(":");
-    const hour = parseInt(hours);
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const hour = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
     const period = hour >= 12 ? "عصر" : "صبح";
     const hour12 = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
     return `${hour12}:${minutes} ${period}`;
+  };
+
+  const formatPrice = (price: number) => {
+    if (price === 0) return "رایگان";
+    return `${price.toLocaleString("fa-IR")} تومان`;
   };
 
   if (loading) {
@@ -170,7 +148,6 @@ const FeaturedEvents = () => {
   return (
     <section className="py-24">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
         <div className="text-center mb-12">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">
             رویدادهای ویژه
@@ -179,36 +156,34 @@ const FeaturedEvents = () => {
             تجربه‌هایی که الهام‌بخش هستند را کشف کنید
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            مجموعه دست‌چین ما از هیجان‌انگیزترین رویدادهای پیش رو را کاوش کنید. چیزی پیدا کنید که با شما صحبت کند.
+            مجموعه دست‌چین ما از هیجان‌انگیزترین رویدادهای پیش رو را کاوش کنید.
           </p>
         </div>
 
-        {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map((event, index) => (
             <div
-              key={event.id}
+              key={event.guid}
               className="animate-fade-in"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <EventCard
-                id={event.id}
-                title={event.title}
-                description={event.description || ""}
-                date={formatDate(event.date)}
-                time={formatTime(event.time)}
-                location={event.location}
-                attendees={attendeeCounts[event.id] || 0}
-                maxAttendees={event.max_attendees}
+                id={event.guid}
+                title={event.name}
+                description={`${formatPrice(event.price)} · ${event.address}`}
+                date={formatDate(event.startDate)}
+                time={formatTime(event.startDate)}
+                location={event.address}
+                attendees={0}
+                maxAttendees={event.capacity}
                 category={event.category}
-                imageUrl={event.image_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800"}
-                organizer="ایونته‌من"
+                imageUrl={event.photo || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800"}
+                organizer="Evand"
               />
             </div>
           ))}
         </div>
 
-        {/* View All Button */}
         <div className="text-center mt-12">
           <Button variant="outline" size="lg" asChild className="gap-2">
             <Link to="/events">

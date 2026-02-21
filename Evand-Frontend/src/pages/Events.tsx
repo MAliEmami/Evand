@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EventCard from "@/components/EventCard";
@@ -13,11 +14,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Search, Filter, MapPin, Calendar as CalendarIcon, X, Loader2 } from "lucide-react";
+import { Search, Filter, MapPin, Calendar as CalendarIcon, X, Loader2, Plus } from "lucide-react";
 import { format } from "date-fns";
 import { faIR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
+import { eventApi, EventListDto } from "@/services/api";
 
 interface Event {
   id: string;
@@ -31,10 +32,10 @@ interface Event {
   image_url: string | null;
   price: string | null;
   max_attendees: number;
-  user_id: string;
 }
 
 const Events = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("همه");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
@@ -58,7 +59,6 @@ const Events = () => {
       image_url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800",
       price: "رایگان",
       max_attendees: 300,
-      user_id: "",
     },
     {
       id: "sample-2",
@@ -72,7 +72,6 @@ const Events = () => {
       image_url: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800",
       price: "۵۰,۰۰۰ تومان",
       max_attendees: 30,
-      user_id: "",
     },
     {
       id: "sample-3",
@@ -86,7 +85,6 @@ const Events = () => {
       image_url: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
       price: "رایگان",
       max_attendees: 150,
-      user_id: "",
     },
     {
       id: "sample-4",
@@ -100,7 +98,6 @@ const Events = () => {
       image_url: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800",
       price: "۲۰۰,۰۰۰ تومان",
       max_attendees: 50,
-      user_id: "",
     },
     {
       id: "sample-5",
@@ -114,7 +111,6 @@ const Events = () => {
       image_url: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800",
       price: "۳۵۰,۰۰۰ تومان",
       max_attendees: 5000,
-      user_id: "",
     },
     {
       id: "sample-6",
@@ -128,7 +124,6 @@ const Events = () => {
       image_url: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800",
       price: "۱۵۰,۰۰۰ تومان",
       max_attendees: 20,
-      user_id: "",
     },
   ];
 
@@ -160,43 +155,35 @@ const Events = () => {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("events")
-        .select("*")
-        .order("date", { ascending: true });
+      const data = await eventApi.getEvents();
 
-      if (error) throw error;
-
-      // If no events in database, use sample events
-      if (!data || data.length === 0) {
-        setEvents(sampleEvents);
-        // Set sample attendee counts
-        const sampleCounts: Record<string, number> = {
-          "sample-1": 245,
-          "sample-2": 28,
-          "sample-3": 89,
-          "sample-4": 42,
-          "sample-5": 4800,
-          "sample-6": 18,
-        };
-        setAttendeeCounts(sampleCounts);
+      if (data && data.length > 0) {
+        const mapped: Event[] = data.map((e) => {
+          const start = new Date(e.startDate);
+          return {
+            id: e.guid,
+            title: e.name,
+            description: null,
+            date: start.toISOString().split("T")[0],
+            time: start.toTimeString().slice(0, 8),
+            location: e.address,
+            address: e.address,
+            category: e.category,
+            image_url: e.photo,
+            price: e.price === 0 ? "رایگان" : `${e.price.toLocaleString("fa-IR")} تومان`,
+            max_attendees: e.capacity,
+          };
+        });
+        setEvents(mapped);
       } else {
-        setEvents(data);
-
-        // Fetch attendee counts for all events
-        const counts: Record<string, number> = {};
-        for (const event of data) {
-          const { count } = await supabase
-            .from("event_registrations")
-            .select("*", { count: "exact", head: true })
-            .eq("event_id", event.id);
-          counts[event.id] = count || 0;
-        }
-        setAttendeeCounts(counts);
+        setEvents(sampleEvents);
+        setAttendeeCounts({
+          "sample-1": 245, "sample-2": 28, "sample-3": 89,
+          "sample-4": 42, "sample-5": 4800, "sample-6": 18,
+        });
       }
     } catch (error) {
       console.error("Error fetching events:", error);
-      // On error, show sample events
       setEvents(sampleEvents);
     } finally {
       setLoading(false);
@@ -267,6 +254,15 @@ const Events = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               رویدادهایی که با علایق شما مطابقت دارند را پیدا کنید و در آن‌ها شرکت کنید. از گفتگوهای فناوری تا اردوگاه‌های سلامت، برای همه چیزی وجود دارد.
             </p>
+            <Button
+              variant="hero"
+              size="lg"
+              className="mt-6 gap-2"
+              onClick={() => navigate("/create-event")}
+            >
+              <Plus className="w-5 h-5" />
+              ایجاد رویداد جدید
+            </Button>
           </div>
 
           {/* Search & Filters */}
@@ -512,7 +508,7 @@ const Events = () => {
                   maxAttendees={event.max_attendees}
                   category={event.category}
                   imageUrl={event.image_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800"}
-                  organizer="ایونته‌من"
+                  organizer="Evand"
                 />
               ))}
             </div>
