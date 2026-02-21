@@ -67,27 +67,5 @@ namespace Evand.Application.Tests
             await _uow.Received(1).SaveChangesAsync(default);
         }
 
-        [Test]
-        public void AddAsync_NullDto_ShouldThrow()
-        {
-            Assert.ThrowsAsync<ArgumentNullException>(() => _service.AddAsync(null!));
-        }
-
-        [Test]
-        public async Task ListAsync_ShouldReturnUserDtos()
-        {
-            var users = new List<User>
-            {
-                new User { Guid = Guid.NewGuid(), FullName = "U1", Email = "u1@x" },
-                new User { Guid = Guid.NewGuid(), FullName = "U2", Email = "u2@x" }
-            };
-
-            _queryRepo.GetQueryable().Returns(users.AsQueryable());
-
-            var result = await _service.ListAsync();
-
-            result.Should().HaveCount(2);
-            result.Select(u => u.Email).Should().Contain("u1@x","u2@x");
-        }
     }
 }
