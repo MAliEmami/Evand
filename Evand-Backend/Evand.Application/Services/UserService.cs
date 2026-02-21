@@ -6,7 +6,6 @@ using Evand.Application.DTOs.User;
 using Evand.Application.Interfaces;
 using Evand.Domain.Entities;
 using Evand.Persistence.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Evand.Application.Services
 {
@@ -16,27 +15,37 @@ namespace Evand.Application.Services
         private readonly IGenericCommandRepository<User> _userCommandRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IGenericQueryRepository<User> userQueryRepository, IGenericCommandRepository<User> userCommandRepository, IUnitOfWork unitOfWork)
+        public UserService(
+            IGenericQueryRepository<User> userQueryRepository,
+            IGenericCommandRepository<User> userCommandRepository,
+            IUnitOfWork unitOfWork)
         {
-            _userQueryRepository = userQueryRepository;
-            _userCommandRepository = userCommandRepository;
-            _unitOfWork = unitOfWork;
+            _userQueryRepository = userQueryRepository ?? throw new ArgumentNullException(nameof(userQueryRepository));
+            _userCommandRepository = userCommandRepository ?? throw new ArgumentNullException(nameof(userCommandRepository));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public async Task<User> AddAsync(UserAddOrUpdateDto dto)
         {
-            var output = await _userCommandRepository.AddAsync(dto.ToEntity());
+            if (dto is null)
+                throw new ArgumentNullException(nameof(dto));
+
+            var entity = dto.ToEntity();
+
+            var output = await _userCommandRepository.AddAsync(entity);
 
             await _unitOfWork.SaveChangesAsync();
 
             return output;
         }
 
-        public async Task<IEnumerable<UserDto>> ListAsync()
+        public Task<IEnumerable<UserDto>> ListAsync()
         {
-            return await _userQueryRepository.GetQueryable()
+            var list = _userQueryRepository.GetQueryable()
                 .Select(e => e.ToDto(e.Guid))
-                .ToListAsync();
+                .ToList();
+
+            return Task.FromResult<IEnumerable<UserDto>>(list);
         }
 
         public Task<int> RemoveAsync(Guid guid)
