@@ -17,8 +17,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: "ایمیل",
-      value: "info@eventeman.com",
-      subValue: "support@eventeman.com",
+      value: "info@evand.com",
+      subValue: "support@evand.com",
     },
     {
       icon: MapPin,
@@ -155,7 +155,7 @@ const Contact = () => {
                     تماس تلفنی
                   </a>
                   <a
-                    href="mailto:support@eventeman.com"
+                    href="mailto:support@evand.com"
                     className="flex items-center justify-center gap-2 bg-background/20 backdrop-blur-sm rounded-xl px-6 py-3 hover:bg-background/30 transition-colors"
                   >
                     <Mail className="w-5 h-5" />

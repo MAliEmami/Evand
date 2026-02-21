@@ -42,8 +42,8 @@ const Footer = () => {
               <div className="w-10 h-10 rounded-xl bg-gradient-hero flex items-center justify-center">
                 <Calendar className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold text-foreground">
-                ایونته<span className="text-gradient">‌من</span>
+              <span className="text-xl font-bold text-foreground" dir="ltr">
+                Evand
               </span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
@@ -118,11 +118,11 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} ایونته‌من. تمامی حقوق محفوظ است.
+            © {currentYear} Evand. تمامی حقوق محفوظ است.
           </p>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Mail className="w-4 h-4" />
-            <span>hello@eventeman.com</span>
+            <span>hello@evand.com</span>
           </div>
         </div>
       </div>

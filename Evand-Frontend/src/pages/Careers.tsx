@@ -26,7 +26,7 @@ const Careers = () => {
       department: "طراحی",
       location: "تهران",
       type: "تمام وقت",
-      description: "طراحی تجربه کاربری برای محصولات ایونته‌من و بهبود مستمر رابط کاربری.",
+      description: "طراحی تجربه کاربری برای محصولات Evand و بهبود مستمر رابط کاربری.",
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ const Careers = () => {
       department: "بازاریابی",
       location: "تهران",
       type: "تمام وقت",
-      description: "مدیریت کمپین‌های بازاریابی و افزایش آگاهی از برند ایونته‌من.",
+      description: "مدیریت کمپین‌های بازاریابی و افزایش آگاهی از برند Evand.",
     },
     {
       id: 4,
@@ -59,7 +59,7 @@ const Careers = () => {
             فرصت‌های <span className="text-gradient">شغلی</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            به تیم ایونته‌من بپیوندید و در شکل‌دهی آینده رویدادها سهیم باشید
+            به تیم Evand بپیوندید و در شکل‌دهی آینده رویدادها سهیم باشید
           </p>
         </div>
       </section>
@@ -68,7 +68,7 @@ const Careers = () => {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold text-foreground text-center mb-12">
-            چرا ایونته‌من؟
+            چرا Evand؟
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {benefits.map((benefit, index) => (

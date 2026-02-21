@@ -74,7 +74,7 @@ const Blog = () => {
             <BookOpen className="w-8 h-8 text-primary-foreground" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            وبلاگ <span className="text-gradient">ایونته‌من</span>
+            وبلاگ <span className="text-gradient">Evand</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             مقالات، نکات و اخبار دنیای رویدادها

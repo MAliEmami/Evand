@@ -7,7 +7,7 @@ namespace Evand.Application.DTOs.Event
 {
     public class EventAddOrUpdateDto
     {
-        public Guid Guid { get; set; }
+        //public Guid Guid { get; set; }
         public string Name { get; set; } = null!;
         public string Category { get; set; } = null!;
         public double? X { get; set; }
