@@ -27,7 +27,8 @@ namespace Evand.Application.Services
 
         public async Task<User> AddAsync(UserAddOrUpdateDto dto)
         {
-            if (dto is null) throw new ArgumentNullException(nameof(dto));
+            if (dto is null)
+                throw new ArgumentNullException(nameof(dto));
 
             var entity = dto.ToEntity();
 
@@ -40,10 +41,9 @@ namespace Evand.Application.Services
 
         public Task<IEnumerable<UserDto>> ListAsync()
         {
-            var query = _userQueryRepository.GetQueryable()
-                .Select(e => e.ToDto(e.Guid));
-
-            var list = query.ToList();
+            var list = _userQueryRepository.GetQueryable()
+                .Select(e => e.ToDto(e.Guid))
+                .ToList();
 
             return Task.FromResult<IEnumerable<UserDto>>(list);
         }
