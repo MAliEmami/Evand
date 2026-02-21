@@ -30,7 +30,7 @@ namespace Evand.Application.DTOs.Event
         {
             return new Evand.Domain.Entities.Event
             {
-                Guid = dto.Guid,
+                //Guid = dto.Guid,
                 Name = dto.Name,
                 Category = dto.Category,
                 X = dto.X,
