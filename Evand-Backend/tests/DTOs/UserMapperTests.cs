@@ -2,7 +2,6 @@
 using Evand.Application.DTOs.User;
 using FluentAssertions;
 using NUnit.Framework;
-
 using DomainUser = Evand.Domain.Entities.User;
 
 namespace Evand.DTO.Tests
@@ -65,6 +64,37 @@ namespace Evand.DTO.Tests
             dto.City.Should().BeNull();
             dto.Province.Should().BeNull();
             dto.Avatar.Should().BeNull();
+        }
+
+        [Test]
+        public void ToEntity_ShouldMapAllFields_FromAddOrUpdateDto()
+        {
+            // Arrange
+            var dto = new UserAddOrUpdateDto
+            {
+                Guid = Guid.NewGuid(),
+                FullName = "DTO User",
+                Email = "dto@example.com",
+                HashPassword = "dto-hash",
+                PhoneNumber = "09870000000",
+                City = "CityX",
+                Province = "ProvX",
+                Avatar = "dto-avatar.png"
+            };
+
+            // Act
+            var entity = dto.ToEntity();
+
+            // Assert
+            entity.Should().NotBeNull();
+            entity.Guid.Should().Be(dto.Guid);
+            entity.FullName.Should().Be(dto.FullName);
+            entity.Email.Should().Be(dto.Email);
+            entity.HashPassword.Should().Be(dto.HashPassword);
+            entity.PhoneNumber.Should().Be(dto.PhoneNumber);
+            entity.City.Should().Be(dto.City);
+            entity.Province.Should().Be(dto.Province);
+            entity.Avatar.Should().Be(dto.Avatar);
         }
 
 
