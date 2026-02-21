@@ -97,6 +97,30 @@ namespace Evand.DTO.Tests
             entity.Avatar.Should().Be(dto.Avatar);
         }
 
+        [Test]
+        public void ToEntity_ShouldPreserveNullables_FromAddOrUpdateDto()
+        {
+            // Arrange
+            var dto = new UserAddOrUpdateDto
+            {
+                Guid = Guid.NewGuid(),
+                FullName = "DTO Nulls",
+                Email = "nulls@example.com",
+                HashPassword = "h",
+                PhoneNumber = null,
+                City = null,
+                Province = null,
+                Avatar = null
+            };
 
+            // Act
+            var entity = dto.ToEntity();
+
+            // Assert
+            entity.PhoneNumber.Should().BeNull();
+            entity.City.Should().BeNull();
+            entity.Province.Should().BeNull();
+            entity.Avatar.Should().BeNull();
+        }
     }
 }
