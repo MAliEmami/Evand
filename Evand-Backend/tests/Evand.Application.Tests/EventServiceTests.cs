@@ -82,5 +82,25 @@ namespace Evand.Application.Tests
             result.Should().HaveCount(2);
             result.Select(r => r.Name).Should().Contain("Event1", "Event2");
         }
+
+        [Test]
+        public void AddAsync_NullDto_ShouldThrow()
+        {
+            Assert.ThrowsAsync<ArgumentNullException>(() => _service.AddAsync(null!));
+        }
+
+        [Test]
+        public void AddAsync_InvalidDates_ShouldThrow()
+        {
+            var dto = new EventAddOrUpdateDto
+            {
+                StartDate = DateTime.UtcNow.AddHours(1),
+                EndDate = DateTime.UtcNow,
+                Name = "Test",
+                Category = "Test"
+            };
+    
+        Assert.ThrowsAsync<ArgumentException>(() => _service.AddAsync(dto));
+        }   
     }
 }
