@@ -46,6 +46,34 @@ namespace Evand.DTO.Tests
             dto.EndDate.Should().Be(entity.EndDate);
             dto.Capacity.Should().Be(entity.Capacity);
         }
- 
+
+        [Test]
+        public void ToDto_ShouldHandleNullables_FromDomainEntity()
+        {
+            // Arrange
+            var entity = new DomainEvent
+            {
+                Guid = Guid.NewGuid(),
+                Name = "Nullables",
+                Category = "Misc",
+                X = null,
+                Y = null,
+                Price = 0m,
+                Photo = null,
+                Address = "Addr",
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddHours(1),
+                Capacity = 0
+            };
+
+            // Act
+            var dto = entity.ToDto(entity.Guid);
+
+            // Assert
+            dto.X.Should().BeNull();
+            dto.Y.Should().BeNull();
+            dto.Photo.Should().BeNull();
+        }
+
     }
 }
