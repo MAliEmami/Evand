@@ -75,5 +75,41 @@ namespace Evand.DTO.Tests
             dto.Photo.Should().BeNull();
         }
 
+        [Test]
+        public void ToEntity_ShouldMapAllFields_FromAddOrUpdateDto()
+        {
+            // Arrange
+            var dto = new EventAddOrUpdateDto
+            {
+                Guid = Guid.NewGuid(),
+                Name = "DTO Event",
+                Category = "Cat",
+                X = 1.23,
+                Y = 4.56,
+                Price = 19.99m,
+                Photo = "p.png",
+                Address = "Addr",
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddHours(2),
+                Capacity = 100
+            };
+
+            // Act
+            var entity = dto.ToEntity();
+
+            // Assert
+            entity.Should().NotBeNull();
+            entity.Guid.Should().Be(dto.Guid);
+            entity.Name.Should().Be(dto.Name);
+            entity.Category.Should().Be(dto.Category);
+            entity.X.Should().Be(dto.X);
+            entity.Y.Should().Be(dto.Y);
+            entity.Price.Should().Be(dto.Price);
+            entity.Photo.Should().Be(dto.Photo);
+            entity.Address.Should().Be(dto.Address);
+            entity.StartDate.Should().Be(dto.StartDate);
+            entity.EndDate.Should().Be(dto.EndDate);
+            entity.Capacity.Should().Be(dto.Capacity);
+        }
     }
 }
